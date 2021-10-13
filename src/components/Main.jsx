@@ -1,96 +1,46 @@
-import React from "react";
-import axios from "axios";
-
-import { BASE_URL } from "../api/api";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "./Button.js";
 import { Form } from "./Form/Form";
 import { List } from "./List/List.js";
 import { Title } from "./Title/Title";
+import { getUsers, addUser, deleteUser } from "../api/users";
+import { useFetch } from "../hooks/useFetch";
 
-/**
- * GET -
- * POST -
- * DELETE -
- */
+function Main() {
+  const { data: values, setData: setValues, loading, error } = useFetch(getUsers);
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    console.log("component did update", values);
+  }, [values]);
 
-    this.state = {
-      values: [],
-      loading: false,
+  useEffect(() => {
+    return () => {
+      console.log("component will unmount");
+      localStorage.removeItem("values");
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    // const values = JSON.parse(localStorage.getItem("values"));
-    this.getFormValues();
-  }
-
-  componentDidUpdate(_, prevState) {
-    console.log("prevState", this.state);
-    // if (prevState.loading !== this.state.loading) {
-    //   this.getFormValues();
-    // }
-  }
-
-  componentWillUnmount() {
-    // localStorage.removeItem("values");
-  }
-
-  getFormValues = () => {
-    axios
-      .get(`${BASE_URL}/users`)
-      .then((response) => {
-        console.log("response.data", response.data);
-        this.setState({ values: response.data });
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
+  const sendForm = async (values) => {
+    const user = await addUser(values);
+    setValues((prevValues) => [...prevValues, user]);
   };
 
-  sendForm = (values) => {
-    axios
-      .post(`${BASE_URL}/users`, values)
-      .then((response) => {
-        this.setState((prev) => ({ values: [...prev.values, response.data] }));
-        // localStorage.setItem("values", JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        console.log("error", error);
-      });
+  const deleteItem = async (id) => {
+    await deleteUser(id);
+    setValues((prevValues) => prevValues.filter((item) => item.id !== id));
   };
 
-  deleteItem = (id) => {
-    this.setState({ loading: true });
-    axios
-      .delete(`${BASE_URL}/users/${id}`)
-      .then(() => {
-        this.setState((prev) => ({
-          values: prev.values.filter((item) => item.id !== id),
-        }));
-      })
-      .catch(function (error) {
-        console.log("error", error);
-      })
-      .finally(() => {
-        this.setState({ loading: false });
-      });
-  };
-
-  render() {
-    return (
-      <>
-        <Title value="Group 34 react app" />
-        <Form handleSubmit={this.sendForm} />
-        <Button />
-        <List items={this.state.values} deleteItem={this.deleteItem} />
-      </>
-    );
-  }
+  return (
+    <>
+      <Title value="List" />
+      <p>{loading ? 'Загрузка...' : 'Загрузилось...'}</p>
+      <p>{error}</p>
+      <Form handleSubmit={sendForm} />
+      <Button />
+      <List items={values} deleteItem={deleteItem} />
+    </>
+  );
 }
 
 export { Main };

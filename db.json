@@ -1,16 +1,40 @@
 {
   "users": [
     {
-      "name": "Bob",
-      "surname": "Black",
+      "name": "Михаил",
+      "surname": "Стругацкий",
       "gender": "male",
-      "id": 1
+      "id": 11
     },
     {
-      "name": "Паша",
-      "surname": "Победитель",
+      "name": "Аби",
+      "surname": "Кошка",
+      "gender": "other",
+      "id": 20
+    },
+    {
+      "name": "Джек",
+      "surname": "Воробей",
+      "gender": "other",
+      "id": 21
+    },
+    {
+      "name": "Гарри",
+      "surname": "Поттер",
       "gender": "male",
-      "id": 10
+      "id": 22
+    },
+    {
+      "name": "Джекки",
+      "surname": "Чан",
+      "gender": "male",
+      "id": 23
+    },
+    {
+      "name": "Войко",
+      "surname": "Митич",
+      "gender": "male",
+      "id": 24
     }
   ]
 }

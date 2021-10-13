@@ -13,7 +13,7 @@ class ListItem extends Component {
     return (
       <div>
         <span>
-          {surname} {name} -{" "}
+          {name} {surname} -{" "}
           {gender === "female" ? "👧 " : gender === "male" ? "👦 " : "👻 "}
         </span>
         <button onClick={this.handleDelete}>Delete</button>

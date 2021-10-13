@@ -1,70 +1,69 @@
-import { Component } from "react";
+import { useState } from "react";
 
 import { Select } from "./Select";
-import { gender } from "../../constants/gender";
+import { gender as genderValues } from "../../constants/gender";
 
-class Form extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      surname: "",
-      gender: "male",
-    };
-  }
+function Form(props) {
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [gender, setGender] = useState("male");
 
-  handleUpdate = (e) => {
-    const { name, value } = e.target;
-
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.props.handleSubmit(this.state);
+    props.handleSubmit({ name, surname, gender });
+    clearForm();
   };
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <FormInput
-          placeholder="Enter name..."
-          name="name"
-          value={this.state.name}
-          onChange={this.handleUpdate}
-        />
-        <FormInput
-          placeholder="Enter surname..."
-          name="surname"
-          value={this.state.surname}
-          onChange={this.handleUpdate}
-        />
-        <Select
-          items={gender}
-          selectedItem={this.state.gender}
-          onChange={this.handleUpdate}
-        />
-        <br />
-        <button type="submit">Submit Form</button>
-      </form>
-    );
-  }
+  const clearForm = () => {
+    setName("");
+    setSurname("");
+    setGender("male");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <FormInput
+        placeholder="Enter name..."
+        name="name"
+        value={name}
+        onChange={setName}
+      />
+      <FormInput
+        placeholder="Enter surname..."
+        name="surname"
+        value={surname}
+        onChange={setSurname}
+      />
+      <Select
+        name="gender"
+        items={genderValues}
+        selectedItem={gender}
+        onChange={setGender}
+      />
+      <br />
+      <button type="submit">Submit Form</button>
+    </form>
+  );
 }
 
-class FormInput extends Component {
-  render() {
-    return (
-      <div>
-        <input
-          type="text"
-          name={this.props.name}
-          placeholder={this.props.placeholder}
-          value={this.props.value}
-          onChange={this.props.onChange}
-        />
-      </div>
-    );
-  }
+function FormInput({ name, placeholder, value, onChange }) {
+  const handleUpdate = (e) => {
+    const { value } = e.target;
+
+    onChange(value);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={handleUpdate}
+      />
+    </div>
+  );
 }
 
 export { Form };
