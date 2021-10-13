@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "name": "Bob",
+      "surname": "Black",
+      "gender": "male",
+      "id": 1
+    },
+    {
+      "name": "Паша",
+      "surname": "Победитель",
+      "gender": "male",
+      "id": 10
+    }
+  ]
+}
