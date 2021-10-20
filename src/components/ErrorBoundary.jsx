@@ -5,13 +5,11 @@ import { logError } from "../utils/errorTracking";
 class ErrorBoundary extends React.Component {
   state = { hasError: false };
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    console.log("componentDidCatch");
-
     logError(error, errorInfo);
   }
 

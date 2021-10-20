@@ -1,5 +1,7 @@
 import { Component } from "react";
 
+import { Link } from "react-router-dom";
+
 class ListItem extends Component {
   handleDelete = () => {
     const { id, deleteItem } = this.props;
@@ -8,13 +10,16 @@ class ListItem extends Component {
   };
 
   render() {
-    const { name, surname, gender } = this.props;
+    const { name, surname, gender, id } = this.props;
 
     return (
       <div>
+        <Link to={`/users/${id}`}>
+          {name} {surname}
+        </Link>
         <span>
-          {name} {surname} -{" "}
-          {gender === "female" ? "👧 " : gender === "male" ? "👦 " : "👻 "}
+          {" "}
+          - {gender === "female" ? "👧 " : gender === "male" ? "👦 " : "👻 "}
         </span>
         <button onClick={this.handleDelete}>Delete</button>
       </div>

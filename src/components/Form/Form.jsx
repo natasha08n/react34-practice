@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { Select } from "./Select";
 import { gender as genderValues } from "../../constants/gender";
+import { ThemeContext } from "../../App";
 
 function Form(props) {
   const [name, setName] = useState("");
@@ -47,6 +48,10 @@ function Form(props) {
 }
 
 function FormInput({ name, placeholder, value, onChange }) {
+  const theme = useContext(ThemeContext);
+
+  console.log('FormInput theme', theme)
+
   const handleUpdate = (e) => {
     const { value } = e.target;
 

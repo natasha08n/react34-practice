@@ -9,6 +9,13 @@ export const getUsers = () => {
     .catch((error) => error);
 };
 
+export const getUser = (id) => {
+  return axios
+    .get(`${BASE_URL}/users/${id}`)
+    .then((response) => response.data)
+    .catch((error) => error);
+};
+
 export const addUser = (values) => {
   return axios
     .post(`${BASE_URL}/users`, values)
